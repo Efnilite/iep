@@ -164,9 +164,9 @@ leaderboards:
 
 reset:
   reasons:
-    flying: "你被重置因为你没有在飞行"
-    bounds: "你被重置因为你超出了界限"
-    speed: "你被重置因为你速度太慢"
+    flying: "你因为你没有在飞行回到了起点"
+    bounds: "你因为你飞出了边界回到了起点"
+    speed: "你因为你速度太慢回到了起点"
 
   lines:
     - ""
