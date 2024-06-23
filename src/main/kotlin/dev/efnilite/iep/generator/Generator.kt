@@ -303,7 +303,7 @@ open class Generator {
     private fun shouldReset(player: ElytraPlayer, pos: Vector): ResetReason? {
         val (idx, section) = sections
             .filter { pos.x < it.value.end.x }
-            .minBy { it.key }
+            .minByOrNull { it.key } ?: return null
 
         val progress = pos.x - section.beginning.x
 
