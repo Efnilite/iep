@@ -118,7 +118,12 @@ class ElytraPlayer(val player: Player, private val data: PreviousData = Previous
      * @param message The message to send.
      */
     fun sendActionBar(message: String) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(Strings.colour(message)))
+        try {
+            player.javaClass.getMethod("sendActionBar", net.kyori.adventure.text.Component::class.java)
+                .invoke(player, net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message))
+        } catch (ignored: NoSuchMethodException) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(Strings.colour(message)))
+        }
     }
 
     /**
