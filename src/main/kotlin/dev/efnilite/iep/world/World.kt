@@ -23,7 +23,6 @@ object World {
 
         world = WorldCreator(NAME)
             .generator(VoidGenerator.getGenerator())
-            .generateStructures(false)
             .type(WorldType.NORMAL)
             .createWorld()!!
 
