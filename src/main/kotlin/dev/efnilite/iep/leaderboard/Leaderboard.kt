@@ -45,7 +45,8 @@ data class Leaderboard(val name: String) {
     }
 
     /**
-     * Updates the leaderboard. If this player has a score with a higher score and lower time, it will not be updated.
+     * Updates the leaderboard.
+     * If this player has a score with a higher score and lower time, it will not be updated.
      * @param uuid The player's UUID
      * @param score The player's score
      */
@@ -60,6 +61,15 @@ data class Leaderboard(val name: String) {
         }
 
         data[uuid] = score
+    }
+
+    /**
+     * Resets the score of the specified player.
+     *
+     * @param uuid The player's UUID
+     */
+    fun reset(uuid: UUID) {
+        data.remove(uuid)
     }
 
     /**

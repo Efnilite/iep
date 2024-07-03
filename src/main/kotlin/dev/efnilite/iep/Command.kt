@@ -12,6 +12,7 @@ import dev.efnilite.vilib.command.ViCommand
 import dev.efnilite.vilib.schematic.Schematic
 import dev.efnilite.vilib.util.Cooldowns
 import dev.efnilite.vilib.util.Strings
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
@@ -47,6 +48,8 @@ object Command : ViCommand() {
                 if (sender.isOp) {
                     send("<#7700FF>/iep schematic <pos1> <pos2> <dark_gray>- <gray>Saves the area between the positions")
                     send("<gray>⋅ Example: /iep schematic 0,0,0 -10,-10,-10")
+                    send("<#7700FF>/iep reset <player/uuid> [mode] <dark_gray>- <gray>Resets player scores for all or a specific mode")
+                    send("<gray>⋅ Example: /iep reset Efnilite min speed")
                     send("")
                 }
             }
@@ -127,6 +130,38 @@ object Command : ViCommand() {
                 } catch (ex: IndexOutOfBoundsException) {
                     sender.send("<red>You need two positions to save the schematic.")
                 }
+            }
+            "reset" -> {
+                if (!sender.isOp) return true
+
+                val uuid = try {
+                    UUID.fromString(args[1])
+                } catch (ex: IllegalArgumentException) {
+                    Bukkit.getOfflinePlayer(args[1]).uniqueId
+                }
+
+                if (uuid == null) {
+                    sender.send("<red>Unknown player.")
+                    return true
+                }
+
+                if (args.size >= 3) {
+                    val mode = IEP.getMode(args.drop(2).joinToString(" ").lowercase())
+
+                    if (mode == null) {
+                        sender.send("<red>Unknown mode.")
+                        return true
+                    }
+
+                    mode.leaderboard.reset(uuid)
+                    sender.send("<gray>Reset $uuid's scores for ${mode.name}.")
+                    return true
+                }
+
+                for (mode in IEP.getModes()) {
+                    mode.leaderboard.reset(uuid)
+                }
+                sender.send("<gray>Reset $uuid's scores.")
             }
             "debug-reset-invulnerability" -> {
                 sender.isInvulnerable = false
