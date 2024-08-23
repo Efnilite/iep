@@ -7,7 +7,7 @@ import dev.efnilite.iep.leaderboard.Score
 import org.sql2o.Sql2o
 import java.util.*
 
-object MySQLStorage {
+internal object MySQLStorage {
 
     private val prefix = Config.CONFIG.getString("mysql.prefix")
     private lateinit var sql2o: Sql2o

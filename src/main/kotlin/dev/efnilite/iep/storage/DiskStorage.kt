@@ -7,7 +7,7 @@ import dev.efnilite.iep.leaderboard.Score
 import java.io.File
 import java.util.*
 
-object DiskStorage {
+internal object DiskStorage {
 
     fun init(uuid: UUID) {
         val file = getPlayerFile(uuid)
