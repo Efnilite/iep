@@ -6,6 +6,8 @@ import dev.efnilite.iep.player.ElytraPlayer
 import dev.efnilite.iep.player.ElytraPlayer.Companion.asElytraPlayer
 import dev.efnilite.vilib.inventory.Menu
 import dev.efnilite.vilib.util.Cooldowns
+import dev.efnilite.vilib.util.Task
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object PlayMenu {
@@ -22,14 +24,29 @@ object PlayMenu {
                         return@click
                     }
 
-                    val ep = player.asElytraPlayer()
+                    val join = {
+                        val ep = player.asElytraPlayer()
 
-                    if (ep == null) {
-                        ElytraPlayer(player).join(mode)
+                        if (ep == null) {
+                            ElytraPlayer(player).join(mode)
+                        } else {
+                            ep.leave(true)
+
+                            ep.join(mode)
+                        }
+                    }
+
+                    if (Bukkit.getPluginManager().isPluginEnabled("IP")) {
+                        IEP.log("IP detected, leaving IP before joining mode")
+
+                        player.performCommand("ip:ip leave")
+
+                        Task.create(IEP.instance)
+                            .delay(1)
+                            .execute(join)
+                            .run()
                     } else {
-                        ep.leave(true)
-
-                        ep.join(mode)
+                        join()
                     }
                 }))
         }
