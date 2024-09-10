@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dev.efnilite.iep.config.Config
 import dev.efnilite.iep.config.Locales
+import dev.efnilite.iep.hook.ChunkyHook
 import dev.efnilite.iep.hook.PapiHook
 import dev.efnilite.iep.mode.*
 import dev.efnilite.iep.style.IncrementalStyle
@@ -61,6 +62,10 @@ class IEP : ViPlugin() {
             log("Registered PlaceholderAPI Hook")
             papiHook = PapiHook
             PapiHook.register()
+        }
+        if (server.pluginManager.isPluginEnabled("Chunky")) {
+            chunkyHook = ChunkyHook
+//            ChunkyHook.init() todo
         }
         if (server.pluginManager.isPluginEnabled("Vault")) {
             log("Registered Vault Hook")
@@ -130,6 +135,7 @@ class IEP : ViPlugin() {
         var stopping = false
             private set
         var papiHook: PapiHook? = null
+        var chunkyHook: ChunkyHook? = null
 
         val GSON: Gson = GsonBuilder().disableHtmlEscaping().create()
 

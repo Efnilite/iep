@@ -1,6 +1,7 @@
 package dev.efnilite.iep.generator
 
 import dev.efnilite.iep.IEP
+import dev.efnilite.iep.IEP.Companion.chunkyHook
 import dev.efnilite.iep.config.Locales
 import dev.efnilite.iep.generator.Settings.Companion.asStyle
 import dev.efnilite.iep.generator.section.ClientBlockChanger
@@ -194,6 +195,8 @@ open class Generator {
             .repeat(1)
             .execute(::tick)
             .run()
+
+        chunkyHook?.init()
     }
 
     open fun getScore() = max(0.0, movementScore)
