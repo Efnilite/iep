@@ -44,7 +44,7 @@ object LeaderboardMenu {
         },
         TIME {
             override fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>> {
-                return scores.entries.sortedWith(compareBy({ it.value.time }, { -it.value.score }))
+                return scores.entries.sortedWith(compareBy { it.value.time })
             }
         };
 
