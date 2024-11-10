@@ -26,7 +26,7 @@ object LeaderboardMenu {
             }
 
             menu.item(menu.items.size + 9, mode.getItem(player)
-                .click({ SingleLeaderboardMenu.open(player, mode, mode.sort) })
+                .click({ SingleLeaderboardMenu.open(player, mode, mode.leaderboard.sort) })
             )
         }
 
@@ -42,7 +42,7 @@ private object SingleLeaderboardMenu {
         val menu = PagedMenu(3, Locales.getString(player, "modes.${mode.name}.title"))
             .displayRows(0, 1)
 
-        for ((idx, entry) in leaderboard.sort.sort(leaderboard.getAllScores()).withIndex()) {
+        for ((idx, entry) in sort.sort(leaderboard.getAllScores()).withIndex()) {
             val (uuid, score) = entry
 
             val item = Locales.getItem(player, "leaderboards.head", (idx + 1).toString(), score.name,

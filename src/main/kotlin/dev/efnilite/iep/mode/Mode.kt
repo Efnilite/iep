@@ -5,7 +5,6 @@ import dev.efnilite.iep.generator.Generator
 import dev.efnilite.iep.generator.section.PointType
 import dev.efnilite.iep.leaderboard.Leaderboard
 import dev.efnilite.iep.leaderboard.Score.Companion.pretty
-import dev.efnilite.iep.menu.LeaderboardMenu
 import org.bukkit.entity.Player
 import org.jetbrains.annotations.Contract
 
@@ -30,12 +29,6 @@ interface Mode {
      */
     val pointType
         get() = PointType.CIRCLE
-
-    /**
-     * The default [LeaderboardMenu.Sort] type.
-     */
-    val sort
-        get() = LeaderboardMenu.Sort.SCORE
 
     /**
      * Returns a new [Generator] for this mode.
