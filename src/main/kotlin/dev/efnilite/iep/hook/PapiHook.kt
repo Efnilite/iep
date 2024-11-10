@@ -15,15 +15,15 @@ object PapiHook : PlaceholderExpansion() {
     override fun canRegister() = true
     override fun persist() = true
 
-    fun replace(player: Player, message: String) = PlaceholderAPI.setPlaceholders(player, message)
+    fun replace(player: Player?, message: String) = PlaceholderAPI.setPlaceholders(player, message)
 
-    override fun onPlaceholderRequest(player: Player, params: String): String? {
+    override fun onPlaceholderRequest(player: Player?, params: String): String? {
         // iep_default_score_1
-        if (params.matches(Regex("[a-z]+_[a-z]+_\\d+"))) {
+        if (params.matches(Regex("[a-z ]+_[a-z]+_\\d+"))) {
             return request(params)
         }
 
-        val iep = player.asElytraPlayer() ?: return null
+        val iep = player?.asElytraPlayer() ?: return null
         val generator = iep.getGenerator()
 
         return when (params) {

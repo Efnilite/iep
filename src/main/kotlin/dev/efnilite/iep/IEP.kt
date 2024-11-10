@@ -106,7 +106,7 @@ class IEP : ViPlugin() {
                     .map {
                         try {
                             return@map Material.getMaterial(it.uppercase())!!
-                        } catch (ex: NullPointerException) {
+                        } catch (_: NullPointerException) {
                             logging.error("Invalid material in style $path.$name: $it")
                             return@map Material.STONE
                         }

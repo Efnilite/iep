@@ -1,5 +1,4 @@
-- Added update checker
-- Added modes to reward files
-- Updated to Kotlin K2 compiler
-- Fixed some stats not being included in reset
-- Fixed players being sent to the lobby server on mode switch
+- Fixed error on startup when using placeholders
+- Fixed Time Trial and Speed Demon not being usable with placeholders
+- Fixed wrong order in Time Trial leaderboards and placeholders
+- Fixed players with less than the required score being in the leaderboard
