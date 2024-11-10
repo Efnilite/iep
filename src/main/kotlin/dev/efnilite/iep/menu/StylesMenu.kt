@@ -24,7 +24,11 @@ object StylesMenu {
 
             val item = Locales.getItem(player, "styles.style",
                 style.name(), if (style is RandomStyle) "random" else "incremental")
-                .material(style.next())
+
+            item.material(style.next())
+            while (!item.material.isItem) {
+                item.material(style.next())
+            }
 
             menu.item(idx, item
                     .click({
