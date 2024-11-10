@@ -1,1 +1,4 @@
 - Fixed error on startup when using placeholders
+- Fixed Time Trial and Speed Demon not being usable with placeholders
+- Fixed wrong order in Time Trial leaderboards and placeholders
+- Fixed players with less than the required score being in the leaderboard
