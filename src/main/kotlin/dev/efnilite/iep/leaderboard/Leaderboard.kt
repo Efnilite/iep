@@ -10,6 +10,13 @@ import java.util.*
  */
 data class Leaderboard(val name: String) {
 
+    var minScore: Double = 0.0
+
+    constructor(name: String, minScore: Double) : this(name) {
+        require(minScore >= 0) { "Minimum score must be greater than or equal to 0" }
+        this.minScore = minScore
+    }
+
     val data = mutableMapOf<UUID, Score>()
 
     init {
@@ -87,14 +94,16 @@ data class Leaderboard(val name: String) {
      * @return The score instance at this rank, else an empty score
      */
     fun getRank(rank: Int): Score {
-        val scores = data.values.sortedByDescending { it.score }
+        val scores = data.values
+            .filter { it.score >= minScore }
+            .sortedByDescending { it.score }
 
         if (rank < 1 || rank > scores.size) return EMPTY_SCORE
 
         return scores[rank - 1]
     }
 
-    fun getAllScores() = data
+    fun getAllScores() = data.filter { it.value.score >= minScore }
 
     companion object {
         private val EMPTY_SCORE = Score("?", 0.0, 0, 0)
