@@ -1,5 +1,1 @@
-- Added update checker
-- Added modes to reward files
-- Updated to Kotlin K2 compiler
-- Fixed some stats not being included in reset
-- Fixed players being sent to the lobby server on mode switch
+- Fixed error on startup when using placeholders
