@@ -19,7 +19,7 @@ object PapiHook : PlaceholderExpansion() {
 
     override fun onPlaceholderRequest(player: Player?, params: String): String? {
         // iep_default_score_1
-        if (params.matches(Regex("[a-z]+_[a-z]+_\\d+"))) {
+        if (params.matches(Regex("[a-z ]+_[a-z]+_\\d+"))) {
             return request(params)
         }
 
