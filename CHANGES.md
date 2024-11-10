@@ -1,4 +1,4 @@
-- Fixed error on startup when using placeholders
-- Fixed Time Trial and Speed Demon not being usable with placeholders
-- Fixed wrong order in Time Trial leaderboards and placeholders
-- Fixed players with less than the required score being in the leaderboard
+- Fixed files sometimes saving immediately after plugin start
+- Fixed non-items in styles menu causing errors
+- Fixed leaderboards not sorting correctly when it should be sorted by time
+- Fixed error on reset when flying is disabled

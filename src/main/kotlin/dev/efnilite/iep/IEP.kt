@@ -82,6 +82,7 @@ class IEP : ViPlugin() {
         Task.create(this)
             .async()
             .repeat(5 * 60 * 20)
+            .delay(5 * 60 * 20)
             .execute {
                 log("Saving all leaderboards")
                 modes.forEach { it.leaderboard.save() }

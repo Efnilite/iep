@@ -101,8 +101,8 @@ data class PreviousData(private val player: Player) {
 
         player.foodLevel = foodLevel
         player.saturation = saturation
-        player.isFlying = flying
         player.allowFlight = allowFlight
+        player.isFlying = flying
 
         player.resetPlayerTime()
 

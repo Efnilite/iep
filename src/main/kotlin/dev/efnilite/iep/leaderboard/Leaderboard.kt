@@ -10,18 +10,17 @@ import java.util.*
  * @param name The name of the leaderboard
  * @param minScore The minimum score required to be on the leaderboard
  */
-data class Leaderboard(val name: String) {
-
-    var minScore: Double = 0.0
-
-    constructor(name: String, minScore: Double) : this(name) {
-        require(minScore >= 0) { "Minimum score must be greater than or equal to 0" }
-        this.minScore = minScore
-    }
+data class Leaderboard(
+    val name: String,
+    var minScore: Double = 0.0,
+    var sort: Sort = Sort.SCORE
+) {
 
     val data = mutableMapOf<UUID, Score>()
 
     init {
+        require(minScore >= 0) { "Minimum score must be greater than or equal to 0" }
+
         load()
     }
 
@@ -97,7 +96,8 @@ data class Leaderboard(val name: String) {
      * @return The score instance at this rank, else an empty score
      */
     fun getRank(rank: Int): Score {
-        val scores = data.values
+        val scores = sort.sort(data)
+            .map { it.value }
             .filter { it.score >= minScore }
             .sortedByDescending { it.score }
 
@@ -107,12 +107,34 @@ data class Leaderboard(val name: String) {
     }
 
     /**
-     * Returns all scores on the leaderboard.
+     * Returns all scores on the leaderboard. Not guaranteed to be sorted.
      * @return All scores on the leaderboard that are above the minimum score.
      */
-    fun getAllScores() = data.filter { it.value.score >= minScore }
+    fun getAllScores() = data
+        .filter { it.value.score >= minScore }
+        .toSortedMap()
 
     companion object {
         private val EMPTY_SCORE = Score("?", 0.0, 0, 0)
+    }
+
+    /**
+     * Represents the sorting method of the leaderboard.
+     */
+    enum class Sort {
+
+        SCORE {
+            override fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>> {
+                return scores.entries.sortedWith(compareBy({ -it.value.score }, { -it.value.time }))
+            }
+        },
+        TIME {
+            override fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>> {
+                return scores.entries.sortedWith(compareBy { it.value.time })
+            }
+        };
+
+        abstract fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>>
+
     }
 }
