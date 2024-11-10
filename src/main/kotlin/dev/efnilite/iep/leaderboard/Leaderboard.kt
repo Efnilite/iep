@@ -7,6 +7,8 @@ import java.util.*
 
 /**
  * Represents a mode's leaderboard
+ * @param name The name of the leaderboard
+ * @param minScore The minimum score required to be on the leaderboard
  */
 data class Leaderboard(val name: String) {
 
@@ -90,6 +92,7 @@ data class Leaderboard(val name: String) {
 
     /**
      * Returns the score instance at the specified rank.
+     * This rank is guaranteed to be above the minimum score for this leaderboard.
      * @param rank The rank
      * @return The score instance at this rank, else an empty score
      */
@@ -103,6 +106,10 @@ data class Leaderboard(val name: String) {
         return scores[rank - 1]
     }
 
+    /**
+     * Returns all scores on the leaderboard.
+     * @return All scores on the leaderboard that are above the minimum score.
+     */
     fun getAllScores() = data.filter { it.value.score >= minScore }
 
     companion object {
