@@ -3,7 +3,7 @@ package dev.efnilite.iep.menu
 import dev.efnilite.iep.IEP
 import dev.efnilite.iep.config.Config
 import dev.efnilite.iep.config.Locales
-import dev.efnilite.iep.leaderboard.Score
+import dev.efnilite.iep.leaderboard.Leaderboard
 import dev.efnilite.iep.mode.Mode
 import dev.efnilite.vilib.inventory.Menu
 import dev.efnilite.vilib.inventory.PagedMenu
@@ -12,7 +12,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.*
 
 object LeaderboardMenu {
 
@@ -34,33 +33,16 @@ object LeaderboardMenu {
         menu.open(player.player)
     }
 
-
-    enum class Sort {
-
-        SCORE {
-            override fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>> {
-                return scores.entries.sortedWith(compareBy({ -it.value.score }, { -it.value.time }))
-            }
-        },
-        TIME {
-            override fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>> {
-                return scores.entries.sortedWith(compareBy { it.value.time })
-            }
-        };
-
-        abstract fun sort(scores: Map<UUID, Score>): List<Map.Entry<UUID, Score>>
-
-    }
 }
 
 private object SingleLeaderboardMenu {
 
-    fun open(player: Player, mode: Mode, sort: LeaderboardMenu.Sort) {
+    fun open(player: Player, mode: Mode, sort: Leaderboard.Sort) {
         val leaderboard = mode.leaderboard
         val menu = PagedMenu(3, Locales.getString(player, "modes.${mode.name}.title"))
             .displayRows(0, 1)
 
-        for ((idx, entry) in sort.sort(leaderboard.getAllScores()).withIndex()) {
+        for ((idx, entry) in leaderboard.sort.sort(leaderboard.getAllScores()).withIndex()) {
             val (uuid, score) = entry
 
             val item = Locales.getItem(player, "leaderboards.head", (idx + 1).toString(), score.name,
@@ -83,8 +65,8 @@ private object SingleLeaderboardMenu {
         val current = Locales.getStringList(player, "leaderboards.sort.values")
 
         val next = when (sort) {
-            LeaderboardMenu.Sort.SCORE -> LeaderboardMenu.Sort.TIME
-            LeaderboardMenu.Sort.TIME -> LeaderboardMenu.Sort.SCORE
+            Leaderboard.Sort.SCORE -> Leaderboard.Sort.TIME
+            Leaderboard.Sort.TIME -> Leaderboard.Sort.SCORE
         }
 
         menu
